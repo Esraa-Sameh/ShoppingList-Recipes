@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'shoppinglist-recipes';
+  display = 'recipes';
+  changeNavigation (navVariable){
+    this.display = navVariable;
+  } 
 }

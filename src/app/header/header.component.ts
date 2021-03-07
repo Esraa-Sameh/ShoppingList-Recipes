@@ -1,5 +1,6 @@
-import { templateJitUrl } from '@angular/compiler';
-import { Component } from '@angular/core';
+
+import { Component, Output, EventEmitter } from '@angular/core';
+
 
 @Component({
     selector: "app-header",
@@ -9,5 +10,11 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
     collapsed = true;
+    @Output() public navClick= new EventEmitter();
+
     constructor () {}
+
+    onNavClick (value:string){
+        this.navClick.emit(value)
+    }
 }

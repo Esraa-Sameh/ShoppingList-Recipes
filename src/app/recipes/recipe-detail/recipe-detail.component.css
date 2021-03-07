@@ -1,0 +1,7 @@
+.recipe__image{
+    height: 300px;
+    width: 500px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
