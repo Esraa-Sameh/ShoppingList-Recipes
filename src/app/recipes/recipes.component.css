@@ -1,0 +1,14 @@
+.recipes{
+    display: flex;
+    align-items: stretch;
+}
+.recipes__btn{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+.recipes__details{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

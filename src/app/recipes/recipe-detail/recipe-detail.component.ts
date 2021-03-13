@@ -13,5 +13,7 @@ export class RecipeDetailComponent implements OnInit {
   }
   ngOnInit(): void {
   }
-
+  onAddClick (){
+    this.recipesService.onAddIngredients(this.recipe.ingredients)
+  }
 }

@@ -1,0 +1,20 @@
+.recipe__link{
+    cursor: pointer;
+    min-height: 150px;
+    display: flex;
+}
+.recipe__link span{
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+}
+.recipe__link h4{
+    margin-bottom: 15px;
+}
+p{
+    font-size: 15px;
+    margin-right: 10px;
+}
+.recipe{
+    margin-bottom: 10px;
+}

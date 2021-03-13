@@ -5,3 +5,6 @@
     background-repeat: no-repeat;
     background-position: center;
 }
+.recipe__description{
+    font-size: 20px;
+}

@@ -1,10 +1,15 @@
 <div class="row">
-<div class="col-lg-5">
+  <div class="col-12" class="recipes__btn">
+    <button class="btn btn-success">Add Recipe</button>
+  </div>
+</div>
+<div class="row recipes">
+<div class="col-lg-6 recipes__list">
   <app-recipe-list></app-recipe-list>
 </div>
-<div class="col-lg-7    ">
+<div class="col-lg-6 recipes__details">
   <app-recipe-detail *ngIf="detailedRecipe; else infoText" [recipe]="detailedRecipe"></app-recipe-detail>
-  <ng-template #infoText><p>Please Select a Recipe</p></ng-template>
+  <ng-template #infoText><h3>Please Select a Recipe</h3></ng-template>
 </div>
 </div>
 

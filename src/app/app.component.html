@@ -1,5 +1,9 @@
 <app-header (navClick)="changeNavigation($event)"></app-header>
 <div class="container">
+<router-outlet></router-outlet>
+</div>
+
+<!-- <div class="container">
   <app-recipes *ngIf="display === 'recipes'"></app-recipes>
   <app-shopping-list *ngIf = "display === 'shoppingList'"></app-shopping-list>
-</div>
+</div> -->

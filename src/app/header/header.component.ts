@@ -10,11 +10,5 @@ import { Component, Output, EventEmitter } from '@angular/core';
 })
 export class HeaderComponent {
     collapsed = true;
-    @Output() public navClick= new EventEmitter();
-
     constructor () {}
-
-    onNavClick (value:string){
-        this.navClick.emit(value)
-    }
 }
