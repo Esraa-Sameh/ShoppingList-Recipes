@@ -19,7 +19,7 @@
       <ul class="dropdown-menu">
         <li><a (click)="onAddClick()" routerLink="/shopping">To Shopping List</a></li>
         <li><a [routerLink]="['edit']">Edit Recipe</a></li>
-        <li><a>Delete Recipe</a></li>
+        <li><a style="cursor: pointer;" (click)="onDeleteClick()">Delete Recipe</a></li>
       </ul>
     </div>
   </div>
@@ -37,4 +37,4 @@
       </li>
     </ul>
   </div>
-</div>
+</div> 

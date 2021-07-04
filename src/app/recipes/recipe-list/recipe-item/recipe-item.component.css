@@ -7,6 +7,8 @@
     width: 100%;
     background-position: center;
     background-size: cover;
+    max-width: 140px;
+    margin-left: auto;
 }
 .recipe__link h4{
     margin-bottom: 15px;
