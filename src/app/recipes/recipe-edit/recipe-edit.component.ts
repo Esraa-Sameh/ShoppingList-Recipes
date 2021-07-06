@@ -25,8 +25,6 @@ export class RecipeEditComponent implements OnInit {
       this.editMode = params['id'] !== undefined;
       this.initForm();
     });
-
-    console.log(this.id);
   }
 
   private initForm() {
@@ -49,7 +47,6 @@ export class RecipeEditComponent implements OnInit {
           );
         }
       }
-      console.log(recipe);
     }
     this.recipeForm = new FormGroup({
       'name': new FormControl(recipeName, Validators.required),
