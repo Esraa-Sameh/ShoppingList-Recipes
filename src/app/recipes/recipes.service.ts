@@ -19,8 +19,6 @@ export class RecipesService {
     this.sLService.addIngredients(ingredients);
   }
   getSingleRecipe(index: number): Recipe {
-    console.log('inside get single recipe');
-    console.log(this.recipes[index])
     return this.recipes[index];
   }
   addRecipe(recipe: Recipe) {
@@ -39,8 +37,6 @@ export class RecipesService {
   }
   setRecipes (recipes : Recipe[]){
     this.recipes = recipes;
-    console.log('Inside set recipes');
-    console.log('Recipes: ', this.recipes)
     this.recipesChanged.next(this.recipes.slice());
   }
 }

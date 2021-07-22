@@ -4,10 +4,10 @@ import {
   HttpHeaders,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Subject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { User } from './user.model';
-
 
 export interface AuthResponseData {
   kind: string;
@@ -23,7 +23,8 @@ export interface AuthResponseData {
 })
 export class AuthService {
   user = new BehaviorSubject<User>(null);
-  constructor(private http: HttpClient) {}
+  private tokenExpirationTimer: any;
+  constructor(private http: HttpClient, private router: Router) {}
   signup(email: string, password: string) {
     return this.http
       .post<AuthResponseData>(
@@ -31,12 +32,12 @@ export class AuthService {
         {
           email: email,
           password: password,
-          returnSecureToken: true
+          returnSecureToken: true,
         }
       )
       .pipe(
         catchError(this.handleError),
-        tap(resData => {
+        tap((resData) => {
           this.handleAuthentication(
             resData.email,
             resData.localId,
@@ -54,12 +55,12 @@ export class AuthService {
         {
           email: email,
           password: password,
-          returnSecureToken: true
+          returnSecureToken: true,
         }
       )
       .pipe(
         catchError(this.handleError),
-        tap(resData => {
+        tap((resData) => {
           this.handleAuthentication(
             resData.email,
             resData.localId,
@@ -70,7 +71,44 @@ export class AuthService {
       );
   }
 
+  logout() {
+    this.user.next(null);
+    localStorage.removeItem('user');
+    if(this.tokenExpirationTimer){
+      clearTimeout(this.tokenExpirationTimer)
+    }
+    this.tokenExpirationTimer = null;
+    this.router.navigate(['/auth']);
 
+  }
+  autoLogIn() {
+    const user: {
+      email: string;
+      _token: string;
+      _id: string;
+      _tokenExpirationDate: string;
+    } = JSON.parse(localStorage.getItem('user'));
+    if (!user) {
+      return;
+    }
+    let loadedUser = new User(
+      user.email,
+      user._token,
+      user._id,
+      new Date(user._tokenExpirationDate)
+    );
+    if (loadedUser.token) {
+      this.user.next(loadedUser);
+      let expirationDuration = new Date(user._tokenExpirationDate).getTime() - new Date().getTime();
+      this.autoLogOut(expirationDuration)
+    }
+  }
+  autoLogOut(expirationDuration: number){
+    console.log(expirationDuration)
+   this.tokenExpirationTimer = setTimeout(() => {
+      this.logout()
+    }, expirationDuration)
+  }
   private handleError(errorResponse: HttpErrorResponse) {
     let errMessage = 'An unknown error occured';
     if (!errorResponse.error || !errorResponse.error.error) {
@@ -101,6 +139,8 @@ export class AuthService {
   ) {
     let expirationDate = new Date(new Date().getTime() + +expiresIn * 1000);
     const user = new User(email, userId, token, expirationDate);
+    this.autoLogOut(+expiresIn * 1000)
+    localStorage.setItem('user', JSON.stringify(user));
     this.user.next(user);
   }
 }

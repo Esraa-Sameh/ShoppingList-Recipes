@@ -60,11 +60,9 @@ export class RecipeEditComponent implements OnInit {
   }
   onSubmit() {
     if(this.editMode){
-      console.log(this.recipeForm.value);
       this.recipesService.updateRecipe(this.id, this.recipeForm.value)
     }
     else{
-      console.log(this.recipeForm.value);
       this.recipesService.addRecipe(this.recipeForm.value)
     }
     this.onCancel();
