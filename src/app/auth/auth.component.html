@@ -6,9 +6,11 @@
         *ngIf="isLoading"
       ></app-loading-spinner>
     </div>
-    <div *ngIf="error" class="alert alert-danger">
+    <!-- <div *ngIf="error" class="alert alert-danger">
       <p>{{ error }}</p>
-    </div>
+    </div> -->
+    <!-- <app-alert (close)="onHandleError()" *ngIf="error" [message]="error"></app-alert> -->
+    <ng-template appPlaceHolder>{{ error }}</ng-template>
     <form *ngIf="!isLoading" #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
       <div class="form-group">
         <label for="email">Email</label>
@@ -49,7 +51,7 @@
           {{ isLoginMode ? "Login" : "Signup" }}
         </button>
         |
-        <button class="btn btn-primary" (click)="onSwitchMode()">
+        <button type="button" class="btn btn-primary" (click)="onSwitchMode()">
           {{ isLoginMode ? "Switch to Signup" : "Switch to Login" }}
         </button>
       </div>

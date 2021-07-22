@@ -1,10 +1,16 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { User } from './user.model';
 
+
 export interface AuthResponseData {
+  kind: string;
   idToken: string;
   email: string;
   refreshToken: string;
@@ -18,27 +24,52 @@ export interface AuthResponseData {
 export class AuthService {
   user = new BehaviorSubject<User>(null);
   constructor(private http: HttpClient) {}
-  signUp(email: string, password: string) {
+  signup(email: string, password: string) {
     return this.http
       .post<AuthResponseData>(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signUp',
-        { email: email, password: password, returnSecureToken: true }
+        'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyC1ZnzI7wswm8dRuW9IqM2cTmYzJsTW2sU',
+        {
+          email: email,
+          password: password,
+          returnSecureToken: true
+        }
       )
       .pipe(
         catchError(this.handleError),
-        tap((resData) => {this.handleAuthentication(resData.email, resData.localId, resData.idToken, resData.expiresIn)})
+        tap(resData => {
+          this.handleAuthentication(
+            resData.email,
+            resData.localId,
+            resData.idToken,
+            resData.expiresIn
+          );
+        })
       );
   }
 
-  logIn(email: string, password: string) {
+  login(email: string, password: string) {
     return this.http
       .post<AuthResponseData>(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword',
-        { email: email, password: password, returnSecureToken: true }
+        'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyC1ZnzI7wswm8dRuW9IqM2cTmYzJsTW2sU',
+        {
+          email: email,
+          password: password,
+          returnSecureToken: true
+        }
       )
-      .pipe(catchError(this.handleError),
-      tap((resData) => {this.handleAuthentication(resData.email, resData.localId, resData.idToken, resData.expiresIn)}));
+      .pipe(
+        catchError(this.handleError),
+        tap(resData => {
+          this.handleAuthentication(
+            resData.email,
+            resData.localId,
+            resData.idToken,
+            resData.expiresIn
+          );
+        })
+      );
   }
+
 
   private handleError(errorResponse: HttpErrorResponse) {
     let errMessage = 'An unknown error occured';

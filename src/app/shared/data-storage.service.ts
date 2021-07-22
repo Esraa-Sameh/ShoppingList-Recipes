@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { Recipe } from '../recipes/recipe.model';
 import { RecipesService } from '../recipes/recipes.service';
@@ -22,7 +22,8 @@ export class DataStorageService implements OnInit {
       this.http
         .put(
           'https://ng-course-recipe-book-a1023-default-rtdb.firebaseio.com/recipes.json',
-          recipes
+          recipes,
+          {headers: new HttpHeaders({'Content-type': 'application/json'})}
         )
         .subscribe((res) => console.log(res));
     });
@@ -30,7 +31,8 @@ export class DataStorageService implements OnInit {
   fetchRecipes() {
     return this.http
       .get<Recipe[]>(
-        'https://ng-course-recipe-book-a1023-default-rtdb.firebaseio.com/recipes.json'
+        'https://ng-course-recipe-book-a1023-default-rtdb.firebaseio.com/recipes.json',
+        {headers: new HttpHeaders({'Content-type': 'application/json'})}
       )
       .pipe(
         map((recipes) => {
