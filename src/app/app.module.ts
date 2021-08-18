@@ -6,7 +6,9 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { SelectComponent } from './recipes/select.component';
 import { SharedModule } from './shared/shared.module';
+import { StoreModule } from '@ngrx/store';
 import { CoreModule } from './core.module';
+import { shoppingListReducer } from './shopping-list/store/shopping-list.reducer';
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,6 +20,7 @@ import { CoreModule } from './core.module';
     AppRoutingModule,
     HttpClientModule,
     SharedModule,
+    StoreModule.forRoot({shoppingList: shoppingListReducer}),
     CoreModule
   ],
   bootstrap: [AppComponent],

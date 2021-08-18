@@ -7,7 +7,6 @@ import {
 import { Observable } from 'rxjs';
 import { Recipe } from '../recipes/recipe.model';
 import { RecipesService } from '../recipes/recipes.service';
-import { ShoppinglistService } from '../shopping-list/shopping-list.service';
 import { DataStorageService } from './data-storage.service';
 
 @Injectable({
@@ -17,7 +16,6 @@ export class ResolverService implements Resolve<any> {
   constructor(
     private activatedRoute: ActivatedRoute,
     private recipesService: RecipesService,
-    private slService: ShoppinglistService,
     private dataStorageService: DataStorageService
   ) {}
   resolve(route: ActivatedRouteSnapshot) {
