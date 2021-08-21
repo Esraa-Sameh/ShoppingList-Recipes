@@ -6,10 +6,6 @@
         *ngIf="isLoading"
       ></app-loading-spinner>
     </div>
-    <!-- <div *ngIf="error" class="alert alert-danger">
-      <p>{{ error }}</p>
-    </div> -->
-    <!-- <app-alert (close)="onHandleError()" *ngIf="error" [message]="error"></app-alert> -->
     <ng-template appPlaceHolder>{{ error }}</ng-template>
     <form *ngIf="!isLoading" #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
       <div class="form-group">

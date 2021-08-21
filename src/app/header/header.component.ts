@@ -1,39 +1,44 @@
-
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
-import { User } from '../auth/user.model';
 import { DataStorageService } from '../shared/data-storage.service';
-
+import * as fromApp from '../store/store.reducer';
 
 @Component({
-    selector: "app-header",
-    templateUrl: "./header.component.html",
-    styleUrls: ["./header.component.css"]
-
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-    collapsed = true;
-    isAuthenticated = false;
-    userSub : Subscription;
-    constructor (private dataStorageService : DataStorageService, private authService: AuthService) {
-    }
-    ngOnInit(){
-       this.userSub = this.authService.user.subscribe(user => {
-           this.isAuthenticated = user? true : false;
-       })
-    }
-    ngOnDestroy (){
-        this.userSub.unsubscribe();
-    }
-    onSaveData(){
-        this.dataStorageService.storeRecipes(); 
-    }
-    onFetchData(){
-        this.dataStorageService.fetchRecipes().subscribe();
-    }
-    onLogOut(){
-        this.authService.logout();
-    }
+  collapsed = true;
+  isAuthenticated = false;
+  userSub: Subscription;
+  constructor(
+    private dataStorageService: DataStorageService,
+    private authService: AuthService,
+    private store: Store<fromApp.AppState>
+  ) {}
+  ngOnInit() {
+    this.userSub = this.store
+      .select('auth')
+      .pipe(map((authState) => authState.user))
+      .subscribe((user) => {
+        this.isAuthenticated = user ? true : false;
+      });
+  }
+  ngOnDestroy() {
+    this.userSub.unsubscribe();
+  }
+  onSaveData() {
+    this.dataStorageService.storeRecipes();
+  }
+  onFetchData() {
+    this.dataStorageService.fetchRecipes().subscribe();
+  }
+  onLogOut() {
+    this.authService.logout();
+  }
 }
